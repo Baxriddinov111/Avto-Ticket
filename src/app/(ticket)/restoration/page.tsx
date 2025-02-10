@@ -2,13 +2,26 @@
 import { createClient } from "@/supabase/client";
 import React, { useState } from "react";
 
+interface UserInfo {
+  Name: string;
+  LastName: string;
+  Email: string;
+  Ticket: number;
+}
+
+interface Ticket {
+  from: string;
+  to: string;
+  date: string;
+  price: number;
+}
+
 const Page = () => {
   const [email, setEmail] = useState<string>("");
-  const [userInfo, setUserInfo] = useState<any>(null);
-  const [userTicket, setUserTicket] = useState<any>(null);
+  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+  const [userTicket, setUserTicket] = useState<Ticket | null>(null);
   const [error, setError] = useState<string>("");
   const supabase = createClient();
-
 
   const handleFetchTicket = async () => {
     if (!email) {
@@ -73,7 +86,7 @@ const Page = () => {
 
       <div className="max-w-lg mx-auto my-8 p-6 bg-white shadow-lg rounded-lg">
         <h2 className="text-2xl font-bold text-center mb-6">
-          Chipta Ma'lumotlarini Tekshirish
+          Chipta Ma&apos;lumotlarini Tekshirish
         </h2>
 
         <div className="mb-4">
@@ -97,7 +110,7 @@ const Page = () => {
         {userInfo && userTicket && (
           <div className="mt-6 p-4 border-t">
             <h3 className="text-xl font-semibold mb-4">
-              Foydalanuvchi Ma'lumotlari:
+              Foydalanuvchi Ma&apos;lumotlari:
             </h3>
             <p className="text-sm text-gray-700">
               <strong>Ism: </strong>
@@ -115,7 +128,7 @@ const Page = () => {
             <div className="mt-6">
               <h4 className="font-bold mb-3">Sotib olingan Chipta:</h4>
               <p className="text-sm text-gray-700">
-                <strong>Yo'nalish: </strong>
+                <strong>Yo&apos;nalish: </strong>
                 {userTicket.from} → {userTicket.to}
               </p>
               <p className="text-sm text-gray-700">

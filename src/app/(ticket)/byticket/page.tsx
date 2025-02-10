@@ -2,8 +2,17 @@
 import { createClient } from "@/supabase/client";
 import { useEffect, useState } from "react";
 
+interface Ticket {
+  id: number;
+  from: string;
+  to: string;
+  date: string;
+  price: number;
+  count: number;
+}
+
 const BuyTicketPage = () => {
-  const [selectedTicket, setSelectedTicket] = useState<any>([]);
+  const [selectedTicket, setSelectedTicket] = useState<Ticket[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [buyerInfo, setBuyerInfo] = useState({
     name: "",
@@ -13,7 +22,6 @@ const BuyTicketPage = () => {
   });
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const supabase = createClient();
-
 
   useEffect(() => {
     const ticketData = localStorage.getItem("selectedTicket");
@@ -27,7 +35,7 @@ const BuyTicketPage = () => {
     setShowForm(true);
   };
 
-  const ChangeValue = (e: any) => {
+  const ChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setBuyerInfo({ ...buyerInfo, [e.target.name]: e.target.value });
   };
 
@@ -37,7 +45,7 @@ const BuyTicketPage = () => {
       return;
     }
 
-    const ticketToUpdate = selectedTicket.find((t: any) => t.id === selectedId);
+    const ticketToUpdate = selectedTicket.find((t) => t.id === selectedId);
     if (!ticketToUpdate) {
       alert("Xatolik: Chipta topilmadi!");
       return;
@@ -113,7 +121,7 @@ const BuyTicketPage = () => {
       </nav>
 
       <div className="mt-32 w-full max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {selectedTicket.map((ticket: any) => (
+        {selectedTicket.map((ticket) => (
           <div
             key={ticket.id}
             className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition duration-300"
@@ -143,7 +151,7 @@ const BuyTicketPage = () => {
       {showForm && (
         <div className="mt-6 max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
           <h2 className="text-center text-xl font-bold mb-4">
-            Ma'lumotlarni kiriting
+            Ma&apos;lumotlarni kiriting
           </h2>
           <input
             type="text"

@@ -1,9 +1,8 @@
 "use client";
 import { createClient } from "@/supabase/client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 const HomePage = () => {
-  const [tickets, setTickets] = useState([]);
   const [from, setFromCity] = useState("");
   const [to, setToCity] = useState("");
   const [date, setDate] = useState("");
@@ -15,7 +14,7 @@ const HomePage = () => {
       return;
     }
 
-    const { data, error }: any = await supabase
+    const { data, error } = await supabase
       .from("AvtoTicket")
       .select("*")
       .eq("from", from)
@@ -26,8 +25,8 @@ const HomePage = () => {
       console.error("Xatolik:", error.message);
       return;
     }
+
     localStorage.setItem("selectedTicket", JSON.stringify(data));
-    setTickets(data);
     location.href = "/byticket";
     setFromCity("");
     setToCity("");

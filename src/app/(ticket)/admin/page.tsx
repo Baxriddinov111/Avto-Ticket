@@ -5,10 +5,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { createClient } from "@/supabase/client";
 
 const AdminPage = () => {
-  useEffect(() => {
-    fetchTickets();
-  }, []);
-
   const [tickets, setTickets] = useState<any>([]);
   const [from, setFromCity] = useState("");
   const [to, setToCity] = useState("");
@@ -19,14 +15,18 @@ const AdminPage = () => {
   const [editingTicket, setEditingTicket] = useState<any>(null);
   const supabase = createClient();
 
-  async function fetchTickets() {
+  const fetchTickets = async () => {
     const { data, error } = await supabase.from("AvtoTicket").select("*");
     if (error) {
       console.error("Error fetching tickets:", error);
     } else {
       setTickets(data);
     }
-  }
+  };
+
+  useEffect(() => {
+    fetchTickets();
+  }, []);
 
   const createTicket = async () => {
     if (!from || !to || !price || !count || !time || !date) {
@@ -244,25 +244,21 @@ const AdminPage = () => {
               </span>
             </div>
             <div className="flex justify-between items-center mb-4">
-              <p className="text-lg">
-                Puli: <span className="font-bold">{ticket.price} so'm</span>
-              </p>
-              <p className="text-lg">
-                Count: <span className="font-bold">{ticket.count}</span>
-              </p>
+              <p>Chipta Narxi: {ticket.price} so'm</p>
+              <p>Chipta Soni: {ticket.count}</p>
             </div>
-            <div className="border-t border-gray-500 pt-4 mt-4">
+            <div className="flex justify-between items-center">
               <button
                 onClick={() => editTicket(ticket)}
-                className="w-full bg-gradient-to-r from-red-600 to-pink-600 text-white py-2 rounded-lg hover:bg-gradient-to-r hover:from-pink-600 hover:to-red-600 transition"
+                className="bg-gradient-to-r from-yellow-500 to-yellow-600 px-4 py-2 text-white rounded-md shadow-lg hover:bg-gradient-to-r hover:from-yellow-600 hover:to-yellow-500 transition duration-300"
               >
-                Edit
+                Tahrirlash
               </button>
               <button
                 onClick={() => deleteTicket(ticket.id)}
-                className="w-full bg-gradient-to-r from-red-600 to-pink-600 text-white py-2 rounded-lg mt-2 hover:bg-gradient-to-r hover:from-pink-600 hover:to-red-600 transition"
+                className="bg-gradient-to-r from-red-500 to-red-600 px-4 py-2 text-white rounded-md shadow-lg hover:bg-gradient-to-r hover:from-red-600 hover:to-red-500 transition duration-300"
               >
-                Delete
+                O'chirish
               </button>
             </div>
           </div>
