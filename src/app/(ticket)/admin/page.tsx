@@ -1,18 +1,18 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { createClient } from "@/supabase/client";
 
 const AdminPage = () => {
-  const [tickets, setTickets] = useState<any>([]);
-  const [from, setFromCity] = useState("");
-  const [to, setToCity] = useState("");
-  const [price, setPrice] = useState("");
-  const [count, setCount] = useState("");
-  const [time, setTime] = useState("");
-  const [date, setDate] = useState("");
-  const [editingTicket, setEditingTicket] = useState<any>(null);
+  const [tickets, setTickets] = useState<Array<any>>([]);
+  const [from, setFromCity] = useState<string>("");
+  const [to, setToCity] = useState<string>("");
+  const [price, setPrice] = useState<string>("");
+  const [count, setCount] = useState<string>("");
+  const [time, setTime] = useState<string>("");
+  const [date, setDate] = useState<string>("");
+  const [editingTicket, setEditingTicket] = useState<any | null>(null);
   const supabase = createClient();
 
   const fetchTickets = async () => {
@@ -24,9 +24,7 @@ const AdminPage = () => {
     }
   };
 
-  useEffect(() => {
-    fetchTickets();
-  }, []);
+  fetchTickets();
 
   const createTicket = async () => {
     if (!from || !to || !price || !count || !time || !date) {
@@ -50,6 +48,7 @@ const AdminPage = () => {
       } else {
         setEditingTicket(null);
         fetchTickets();
+        toast.success("Ticket muvaffaqiyatli tahrirlandi! 🎉");
       }
     } else {
       const { data, error } = await supabase
@@ -89,6 +88,7 @@ const AdminPage = () => {
       console.error("Delete error:", error);
     } else {
       fetchTickets();
+      toast.success("Ticket muvaffaqiyatli o'chirildi! 🎉");
     }
   }
 
